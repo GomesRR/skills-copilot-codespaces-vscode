@@ -1,26 +1,21 @@
 // create web server
 const express = require('express');
+const bodyParser = require('body-parser');
 const app = express();
-const path = require('path');
-const port = 3000;
-
+app.use(bodyParser.json());
 // create comments array
-let comments = [
-  {
-    name: 'John',
-    comment: 'Hello everyone!'
-  },
-  {
-    name: 'Jane',
-    comment: 'Hi John!'
-  }
-];
-
-// create a route for comments
+const comments = [];
+// create a route to get all comments
 app.get('/comments', (req, res) => {
   res.json(comments);
 });
-
-app.listen(port, () => {
-  console.log(`Server is running at http://localhost:${port}`);
+// create a route to post a comment
+app.post('/comments', (req, res) => {
+  const comment = req.body;
+  comments.push(comment);
+  res.json(comment);
+});
+// start the server
+app.listen(4001, () => {
+  console.log('Comments service started on port 4001');
 });
